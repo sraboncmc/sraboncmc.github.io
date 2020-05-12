@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Corona Information</title>
+<script src="js/jquery.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="c.css">
+</head>
+<body>
+<font size="5"><b>Corona Update Information</b></font><br>
+<font size="4"><b>Result depends on server update.</b></font><br><br>
+<table>
+  <tr>
+    <th align="center">জেলা সমূহের তথ্য</th>
+    <th align="center">ঢাকা সিটির তথ্য</th> 
+  </tr>
+  <tr>
+  <td class="c">
+<ul id = "code" style="height: 400px;width: 300px;overflow: auto;" ></ul>
+  </td>
+  <td class="c">
+<ul id = "code1" style="height: 400px;width: 300px;overflow: auto;" ></ul>
+  </td></tr></table><br><br>
+
+<div id="chatrooms1"></div>
+
+<b>Scroll Down to see more data in List.</b><br><br>
+<b> © Complied by <img src="js/dev.gif" width="200px" height="70px"/> </b><br><br>
+
+<b>NB: You need to install Bangla font in your device otherwise you will see block box. </b>
+<script>
+	function loaddata(){
+	   $.ajax({
+		    type: "GET",
+			url: "dhaka.json",
+			dataType: "json",
+            success: function(data){				
+					var data2 = JSON.stringify(data);
+                    var mj = JSON.parse(data2);
+					for (var key in mj) {
+						if (mj.hasOwnProperty(key)) {
+							$('#code1').append($('<li class=\"list-group-item\">').html(mj[key]['name'] + " : " + mj[key]['count']));
+						}
+					}
+            },error: function(data){
+				document.getElementById('code1').textContent = JSON.stringify(data);
+            }
+        });
+	   $.ajax({
+		    type: "GET",
+			url: "district.json",
+			dataType: "json",
+            success: function(data){				
+					var data2 = JSON.stringify(data);
+                    var mj = JSON.parse(data2);
+					for (var key in mj) {
+						if (mj.hasOwnProperty(key)) {
+							$('#code').append($('<li class=\"list-group-item\">').html(mj[key]['name'] + " : " + mj[key]['count']));
+						}
+					}
+            },error: function(data){
+				document.getElementById('code').textContent = JSON.stringify(data);
+            }
+        });
+    }
+	loaddata();
+</script>
+</body>
+</html>
