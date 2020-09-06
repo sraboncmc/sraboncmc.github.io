@@ -45,7 +45,7 @@ def process():
     x = datetime.datetime.now()
     print(len(data))
     for link in soup.findAll('a'):
-        print(link.get('href'));print(str(link.contents))
+        #print(link.get('href'));print(str(link.contents))
         if '/?get_prize=' in str(link.get('href')) and 'gen_code=' in str(link.get('href')):
             print(link.get('href')+' = '+str(link.contents)+' ='+x.strftime("%I:%M:%S %p"))
             return send(link.get('href'))
