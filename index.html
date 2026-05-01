@@ -1,17 +1,1192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link rel="icon" type="image/ico" href="js/coro.ico">
-<title>Doctor Information</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="js/jquery.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="c.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Muhammad Shahadat Hossain | Doctor Profile & Chamber Appointment</title>
+  <style>
+    /* Performance note:
+       This page is intentionally built with pure HTML/CSS/vanilla JS.
+       No external frameworks are loaded, so it works better on slow internet. */
+    :root {
+      --bg: #eef6f7;
+      --surface: #ffffff;
+      --surface-soft: #f8fbfc;
+      --text: #0f2238;
+      --muted: #60758b;
+      --primary: #0f766e;
+      --primary-dark: #0b5f59;
+      --primary-soft: #e3f8f5;
+      --secondary: #1d4ed8;
+      --gold: #c99a2e;
+      --line: #d9e6ee;
+      --shadow: 0 24px 70px rgba(15, 34, 56, 0.13);
+      --soft-shadow: 0 14px 35px rgba(15, 34, 56, 0.08);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(15, 118, 110, 0.18), transparent 30%),
+        radial-gradient(circle at 92% 18%, rgba(29, 78, 216, 0.13), transparent 28%),
+        radial-gradient(circle at 50% 105%, rgba(201, 154, 46, 0.12), transparent 28%),
+        var(--bg);
+      padding: 24px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .site {
+      max-width: 1240px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(217, 230, 238, 0.95);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 46px;
+      background: rgba(255, 255, 255, 0.82);
+      border-bottom: 1px solid rgba(217, 230, 238, 0.92);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      letter-spacing: -0.2px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), #164e63);
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.25);
+      font-size: 20px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .nav a {
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--primary-dark);
+    }
+
+    .nav-cta {
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff !important;
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.2);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 40px;
+      padding: 66px 56px 52px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(235, 251, 248, 0.92)),
+        linear-gradient(135deg, #ffffff, #ecfbf8);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      right: -80px;
+      top: -90px;
+      border-radius: 50%;
+      background: rgba(15, 118, 110, 0.12);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      left: -80px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: rgba(29, 78, 216, 0.08);
+    }
+
+    .hero-content,
+    .profile-panel {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: #ffffff;
+      color: var(--primary-dark);
+      padding: 9px 15px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 18px;
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      box-shadow: 0 10px 25px rgba(15, 34, 56, 0.06);
+    }
+
+    h1 {
+      font-size: clamp(38px, 5.5vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -2.2px;
+      margin-bottom: 16px;
+    }
+
+    .degree {
+      color: var(--primary-dark);
+      font-weight: 900;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 710px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      text-decoration: none;
+      border-radius: 15px;
+      padding: 13px 18px;
+      min-height: 48px;
+      font-weight: 900;
+      border: 1px solid transparent;
+      transition: 0.22s ease;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), #164e63);
+      box-shadow: 0 14px 28px rgba(15, 118, 110, 0.22);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: #ffffff;
+      border-color: var(--line);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(15, 34, 56, 0.15);
+    }
+
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 720px;
+    }
+
+    .trust-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(217, 230, 238, 0.95);
+      box-shadow: 0 10px 25px rgba(15, 34, 56, 0.05);
+    }
+
+    .trust-item strong {
+      display: block;
+      font-size: 20px;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+
+    .trust-item span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .profile-panel {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(217, 230, 238, 0.95);
+      border-radius: 30px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+      align-self: center;
+    }
+
+    .photo-frame {
+      position: relative;
+      border-radius: 25px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #e3f8f5, #eef4ff);
+      min-height: 350px;
+      border: 1px solid #dfeaf1;
+    }
+
+    .portrait {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 350px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--primary-dark);
+      font-weight: 900;
+      padding: 24px;
+    }
+
+    .portrait.is-loading {
+      opacity: 0;
+    }
+
+    .portrait.is-loaded {
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+      background: #eef5f7;
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+      animation: shimmer 1.35s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+
+    .photo-caption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      color: #ffffff;
+      background: rgba(15, 34, 56, 0.74);
+      backdrop-filter: blur(10px);
+      font-weight: 850;
+      font-size: 14px;
+    }
+
+    .profile-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .profile-info div {
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--surface-soft);
+      border: 1px solid #e3edf3;
+    }
+
+    .profile-info strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .profile-info span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 46px 56px 58px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 30px;
+      letter-spacing: -0.8px;
+      line-height: 1.1;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 44px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 25px;
+      box-shadow: 0 12px 30px rgba(15, 34, 56, 0.055);
+      transition: 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 42px rgba(15, 34, 56, 0.1);
+    }
+
+    .icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 17px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 23px;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      letter-spacing: -0.25px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .achievement-section {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      margin-bottom: 46px;
+      align-items: stretch;
+    }
+
+    .premium-card {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 252, 0.98));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .credential-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .credential-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 13px;
+      align-items: start;
+      padding: 15px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid #e3edf3;
+    }
+
+    .credential-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), #164e63);
+      font-weight: 950;
+      font-size: 13px;
+    }
+
+    .credential-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .credential-item span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .feature-panel {
+      color: #ffffff;
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.97), rgba(22, 78, 99, 0.98));
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 22px 45px rgba(15, 118, 110, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-panel::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -70px;
+      bottom: -70px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .feature-panel h3 {
+      font-size: 28px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      letter-spacing: -0.6px;
+    }
+
+    .feature-panel p {
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 20px;
+    }
+
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .feature-pills span {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .chamber-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 42px;
+    }
+
+    .chamber-card {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .chamber-top {
+      padding: 25px 25px 0;
+    }
+
+    .chamber-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 950;
+      margin-bottom: 12px;
+    }
+
+    .chamber-card h3 {
+      font-size: 22px;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+    }
+
+    .chamber-address {
+      color: var(--muted);
+      margin-bottom: 17px;
+      font-size: 15px;
+    }
+
+    .detail-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .detail-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .detail-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 5px var(--primary-soft);
+    }
+
+    .appointment-box {
+      margin: 0 25px;
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--surface-soft);
+      border: 1px solid #e3edf3;
+    }
+
+    .appointment-box h4 {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .appointment-number {
+      color: var(--primary-dark);
+      font-size: 15px;
+      font-weight: 950;
+      margin-bottom: 13px;
+    }
+
+    .appointment-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .appointment-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 11px 15px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 14px;
+      transition: 0.22s ease;
+    }
+
+    .appointment-btn.call {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), #164e63);
+      border: 1px solid var(--primary);
+    }
+
+    .appointment-btn.map {
+      color: var(--primary-dark);
+      background: #ffffff;
+      border: 1px solid #cde8e3;
+    }
+
+    .appointment-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(15, 34, 56, 0.13);
+    }
+
+    .map-placeholder {
+      min-height: 190px;
+      border-top: 1px solid #e3edf3;
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.09), rgba(29, 78, 216, 0.06)),
+        #f9fcfd;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+    }
+
+    .map-frame {
+      width: 100%;
+      min-height: 220px;
+      border: 0;
+      display: block;
+    }
+
+    .load-map-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+      border: 1px solid #cde8e3;
+      background: #ffffff;
+      color: var(--primary-dark);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .loading-note {
+      padding: 18px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 750;
+    }
+
+    .map-placeholder strong {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .cta-panel {
+      background:
+        linear-gradient(135deg, var(--primary), #164e63);
+      color: #ffffff;
+      border-radius: 30px;
+      padding: 34px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      box-shadow: 0 22px 48px rgba(15, 118, 110, 0.24);
+    }
+
+    .cta-panel h2 {
+      font-size: 30px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      letter-spacing: -0.8px;
+    }
+
+    .cta-panel p {
+      color: rgba(255, 255, 255, 0.84);
+      max-width: 780px;
+    }
+
+    .cta-panel .btn {
+      color: var(--text);
+      background: #ffffff;
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 0 56px 36px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      body {
+        padding: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 24px;
+      }
+
+      .hero,
+      .service-grid,
+      .achievement-section,
+      .chamber-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      main {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-title p {
+        text-align: left;
+      }
+
+      .trust-strip,
+      .profile-info {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-panel {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 620px) {
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero {
+        padding-top: 38px;
+      }
+
+      main {
+        padding-top: 34px;
+      }
+
+      .nav {
+        gap: 12px;
+      }
+
+      .appointment-actions,
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn,
+      .appointment-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-under construction
+  <div class="site">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">✚</div>
+        <span>Dr. Muhammad Shahadat Hossain</span>
+      </div>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#achievements">Degrees</a>
+        <a href="#chambers">Chambers</a>
+        <a class="nav-cta" href="#chambers">Book Appointment</a>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Premium Doctor Profile & Chamber Appointment</div>
+        <h1>Dr. Muhammad Shahadat Hossain</h1>
+        <div class="degree">Physiatrist | Physical Medicine & Rehabilitation Specialist</div>
+        <p class="subtitle">
+          Dedicated to restoring movement, reducing pain, improving function, and helping patients return to daily life with confidence through modern rehabilitation care.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#chambers">📞 Book Appointment</a>
+          <a class="btn secondary" href="#achievements">View Degrees</a>
+        </div>
+
+        <div class="trust-strip">
+          <div class="trust-item">
+            <strong>PM&R</strong>
+            <span>Rehabilitation Medicine</span>
+          </div>
+          <div class="trust-item">
+            <strong>Pain</strong>
+            <span>Functional Recovery Focus</span>
+          </div>
+          <div class="trust-item">
+            <strong>Multi</strong>
+            <span>Chamber Appointment</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="profile-panel">
+        <div class="photo-frame">
+          <!-- Replace data-src with your real compressed portrait image path.
+               loading="lazy" and decoding="async" help the page load faster on slow internet.
+          -->
+          <img
+            class="portrait is-loading skeleton"
+            src=""
+            data-src="your-photo.jpg"
+            alt="Portrait of Dr. Muhammad Shahadat Hossain"
+            loading="lazy"
+            decoding="async"
+            width="520"
+            height="350"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+          />
+          <div class="photo-placeholder" style="display:none;">
+            Personal Portrait Photo<br />
+            Replace data-src="your-photo.jpg" with your real compressed doctor photo
+          </div>
+          <div class="photo-caption">Physical Medicine & Rehabilitation Specialist</div>
+        </div>
+
+        <div class="profile-info">
+          <div><strong>Specialty</strong><span>PM&R / Rehabilitation</span></div>
+          <div><strong>Focus</strong><span>Pain, disability, function</span></div>
+          <div><strong>Care Style</strong><span>Patient-centered planning</span></div>
+          <div><strong>Appointment</strong><span>Multiple chamber options</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <main>
+      <section id="about">
+        <div class="section-title">
+          <h2>Specialized Rehabilitation Care</h2>
+          <p>Modern, patient-centered consultation for pain, mobility limitation, disability, and functional recovery.</p>
+        </div>
+
+        <div class="service-grid">
+          <article class="card">
+            <div class="icon">⚕</div>
+            <h3>Specialty</h3>
+            <p>
+              Physical Medicine & Rehabilitation focused on functional restoration, pain management, and disability care.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🦴</div>
+            <h3>Common Services</h3>
+            <p>
+              Back pain, neck pain, stroke rehabilitation, joint pain, arthritis, neuropathy, musculoskeletal problems, and mobility limitation.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🤝</div>
+            <h3>Care Approach</h3>
+            <p>
+              Individualized assessment, patient education, exercise prescription, rehabilitation planning, and long-term functional guidance.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="achievements">
+        <div class="section-title">
+          <h2>Degrees & Achievements</h2>
+          <p>Add academic degrees, government service, professional training, awards, memberships, and publication achievements here.</p>
+        </div>
+
+        <div class="achievement-section">
+          <div class="premium-card">
+            <div class="credential-list">
+              <div class="credential-item">
+                <div class="credential-dot">01</div>
+                <div>
+                  <strong>MBBS</strong>
+                  <span>Add medical college, institute, or university name.</span>
+                </div>
+              </div>
+              <div class="credential-item">
+                <div class="credential-dot">02</div>
+                <div>
+                  <strong>BCS (Health) / Government Service</strong>
+                  <span>Add service details, posting, or professional designation.</span>
+                </div>
+              </div>
+              <div class="credential-item">
+                <div class="credential-dot">03</div>
+                <div>
+                  <strong>MD / FCPS / Diploma in PM&R</strong>
+                  <span>Add your final specialist degree or fellowship details.</span>
+                </div>
+              </div>
+              <div class="credential-item">
+                <div class="credential-dot">04</div>
+                <div>
+                  <strong>Training / Membership / Publication</strong>
+                  <span>Add rehabilitation, pain, musculoskeletal medicine, awards, or publications.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-panel">
+            <h3>Focused on function, independence, and quality of life.</h3>
+            <p>
+              This section can highlight your strongest clinical identity, academic achievements, patient-care philosophy, and professional recognition.
+            </p>
+            <div class="feature-pills">
+              <span>Rehabilitation</span>
+              <span>Pain Care</span>
+              <span>Functional Recovery</span>
+              <span>Musculoskeletal Medicine</span>
+              <span>Patient Education</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="chambers">
+        <div class="section-title">
+          <h2>Chamber Locations & Appointments</h2>
+          <p>Each chamber has its own schedule, appointment number, and direction button for easier patient access.</p>
+        </div>
+
+        <div class="chamber-grid" id="chamberGrid">
+          <div class="loading-note">Loading chamber information...</div>
+        </div>
+      </section>
+
+      <section class="cta-panel">
+        <div>
+          <h2>Choose your preferred chamber before booking.</h2>
+          <p>
+            Use the individual chamber appointment buttons to call the correct number and get directions to the selected location.
+          </p>
+        </div>
+        <a class="btn" href="#chambers">View Chamber Options</a>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 Dr. Muhammad Shahadat Hossain. Doctor profile and chamber appointment page.
+    </footer>
+  </div>
+<script defer>
+    // Lightweight dynamic data system.
+    // Edit only this chamberData list to update all chamber cards.
+    const chamberData = [
+      {
+        id: '01',
+        name: 'Write Chamber Name Here',
+        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
+        days: 'Saturday, Monday, Wednesday',
+        time: '5:00 PM – 9:00 PM',
+        landmark: 'Write landmark here',
+        phoneDisplay: '+880 1XXX-XXXXXX',
+        phoneLink: '+8801XXXXXXXXX',
+        directionLink: '#',
+        mapEmbed: ''
+      },
+      {
+        id: '02',
+        name: 'Write Chamber Name Here',
+        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
+        days: 'Sunday, Tuesday, Thursday',
+        time: '6:00 PM – 10:00 PM',
+        landmark: 'Write landmark here',
+        phoneDisplay: '+880 1XXX-XXXXXX',
+        phoneLink: '+8801XXXXXXXXX',
+        directionLink: '#',
+        mapEmbed: ''
+      },
+      {
+        id: '03',
+        name: 'Write Chamber Name Here',
+        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
+        days: 'Write days here',
+        time: 'Write time here',
+        landmark: 'Write landmark here',
+        phoneDisplay: '+880 1XXX-XXXXXX',
+        phoneLink: '+8801XXXXXXXXX',
+        directionLink: '#',
+        mapEmbed: ''
+      },
+      {
+        id: '04',
+        name: 'Write Chamber Name Here',
+        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
+        days: 'Write days here',
+        time: 'Write time here',
+        landmark: 'Write landmark here',
+        phoneDisplay: '+880 1XXX-XXXXXX',
+        phoneLink: '+8801XXXXXXXXX',
+        directionLink: '#',
+        mapEmbed: ''
+      }
+    ];
+
+    const safeText = (value) => String(value || '').replace(/[&<>"]/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;'
+    }[char]));
+
+    function chamberTemplate(chamber) {
+      const id = safeText(chamber.id);
+      return `
+        <article class="card chamber-card">
+          <div class="chamber-top">
+            <span class="chamber-badge">● Chamber ${id}</span>
+            <h3>${safeText(chamber.name)}</h3>
+            <p class="chamber-address">${safeText(chamber.address)}</p>
+            <ul class="detail-list">
+              <li>Visiting days: ${safeText(chamber.days)}</li>
+              <li>Visiting time: ${safeText(chamber.time)}</li>
+              <li>Nearby landmark: ${safeText(chamber.landmark)}</li>
+            </ul>
+          </div>
+
+          <div class="appointment-box">
+            <h4>Appointment for Chamber ${id}</h4>
+            <div class="appointment-number">${safeText(chamber.phoneDisplay)}</div>
+            <div class="appointment-actions">
+              <a class="appointment-btn call" href="tel:${safeText(chamber.phoneLink)}">📞 Call for Appointment</a>
+              <a class="appointment-btn map" href="${safeText(chamber.directionLink)}" target="_blank" rel="noopener">📍 Get Direction</a>
+            </div>
+          </div>
+
+          <div class="map-placeholder" data-map="${safeText(chamber.mapEmbed)}">
+            <div>
+              <strong>Map for Chamber ${id}</strong>
+              <div>Map is kept unloaded for faster browsing.</div>
+              <button class="load-map-btn" type="button">Load Map</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderChambers() {
+      const grid = document.getElementById('chamberGrid');
+      if (!grid) return;
+      grid.innerHTML = chamberData.map(chamberTemplate).join('');
+    }
+
+    function setupLazyPortrait() {
+      const image = document.querySelector('img[data-src]');
+      if (!image) return;
+
+      const loadImage = () => {
+        const src = image.getAttribute('data-src');
+        if (!src) return;
+        image.src = src;
+        image.onload = () => {
+          image.classList.remove('is-loading', 'skeleton');
+          image.classList.add('is-loaded');
+        };
+      };
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadImage();
+              obs.disconnect();
+            }
+          });
+        }, { rootMargin: '120px' });
+        observer.observe(image);
+      } else {
+        loadImage();
+      }
+    }
+
+    function setupLazyMaps() {
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.load-map-btn');
+        if (!button) return;
+
+        const mapBox = button.closest('.map-placeholder');
+        const embed = mapBox ? mapBox.getAttribute('data-map') : '';
+
+        if (!embed) {
+          mapBox.innerHTML = '<div><strong>Map link not added yet</strong><br />Paste Google Maps embed URL inside chamberData.mapEmbed.</div>';
+          return;
+        }
+
+        mapBox.innerHTML = `<iframe class="map-frame" src="${embed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderChambers();
+      setupLazyPortrait();
+      setupLazyMaps();
+    });
+  </script>
 </body>
 </html>
+
