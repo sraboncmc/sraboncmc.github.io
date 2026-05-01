@@ -844,7 +844,7 @@
   <div class="site">
     <div class="topbar">
       <div class="brand">
-        <div class="brand-mark">✚</div>
+        <div class="brand-mark"></div>
         <span>Dr. Muhammad Shahadat Hossain</span>
       </div>
       <nav class="nav">
@@ -893,7 +893,7 @@
           <img
             class="portrait is-loading skeleton"
             src=""
-            data-src="your-photo.jpg"
+            data-src="photo.jpg"
             alt="Portrait of Dr. Muhammad Shahadat Hossain"
             loading="lazy"
             decoding="async"
@@ -903,7 +903,6 @@
           />
           <div class="photo-placeholder" style="display:none;">
             Personal Portrait Photo<br />
-            Replace data-src="your-photo.jpg" with your real compressed doctor photo
           </div>
           <div class="photo-caption">Physical Medicine & Rehabilitation Specialist</div>
         </div>
@@ -964,28 +963,32 @@
                 <div class="credential-dot">01</div>
                 <div>
                   <strong>MBBS</strong>
-                  <span>Add medical college, institute, or university name.</span>
+                  <span>Chittagong Medical College</span>
                 </div>
               </div>
               <div class="credential-item">
                 <div class="credential-dot">02</div>
                 <div>
-                  <strong>BCS (Health) / Government Service</strong>
-                  <span>Add service details, posting, or professional designation.</span>
+                  <strong>Service</strong>
+                  <span>Assiatnt Professor, Physical Medicine, IASH (USTC Medical College Hospital.</span>
                 </div>
               </div>
               <div class="credential-item">
                 <div class="credential-dot">03</div>
                 <div>
-                  <strong>MD / FCPS / Diploma in PM&R</strong>
-                  <span>Add your final specialist degree or fellowship details.</span>
+                  <strong>FCPS</strong>
+                  <span>FCPS (Physical Medicine and Rehabilitation) </span>
                 </div>
               </div>
               <div class="credential-item">
                 <div class="credential-dot">04</div>
                 <div>
-                  <strong>Training / Membership / Publication</strong>
-                  <span>Add rehabilitation, pain, musculoskeletal medicine, awards, or publications.</span>
+                  <strong>Training</strong>
+                  <span>CCD (BIRDEM)</span>
+                </div>
+                <div>
+                  <strong>Membership</strong>
+                  <span>BSPMR</span>
                 </div>
               </div>
             </div>
@@ -1010,7 +1013,6 @@
       <section id="chambers">
         <div class="section-title">
           <h2>Chamber Locations & Appointments</h2>
-          <p>Each chamber has its own schedule, appointment number, and direction button for easier patient access.</p>
         </div>
 
         <div class="chamber-grid" id="chamberGrid">
@@ -1039,27 +1041,27 @@
     const chamberData = [
       {
         id: '01',
-        name: 'Write Chamber Name Here',
-        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
-        days: 'Saturday, Monday, Wednesday',
-        time: '5:00 PM – 9:00 PM',
-        landmark: 'Write landmark here',
-        phoneDisplay: '+880 1XXX-XXXXXX',
-        phoneLink: '+8801XXXXXXXXX',
-        directionLink: '#',
-        mapEmbed: ''
+        name: 'Quick Medical Pharmacy',
+        address: 'Road no 2, MMousumi Resiential Area, Nayabazar',
+        days: 'everyday',
+        time: '9:00 PM – 11:00 PM',
+        landmark: 'Chobila Manjil',
+        phoneDisplay: '+880 1819-933422',
+        phoneLink: '+8801819933422',
+        directionLink: 'https://maps.app.goo.gl/1cAKDCEmdehaSDtRA',
+        mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3690.188185101915!2d91.787774774805!3d22.346522141219435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd98f30e6ddb9%3A0x72d4f0d6b8cd562b!2sQuick%20Medicine!5e0!3m2!1sen!2sbd!4v1777600812288!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
       },
       {
         id: '02',
-        name: 'Write Chamber Name Here',
-        address: 'Write full address here, including building name, floor, road, area, city, and nearby landmark.',
-        days: 'Sunday, Tuesday, Thursday',
-        time: '6:00 PM – 10:00 PM',
-        landmark: 'Write landmark here',
-        phoneDisplay: '+880 1XXX-XXXXXX',
-        phoneLink: '+8801XXXXXXXXX',
-        directionLink: '#',
-        mapEmbed: ''
+        name: 'Chittagong Neuro Rehab',
+        address: 'Suborna Abasik, Rahim Mansion, 1054 O.R. Nizam Rd, Chattogram 4203, Chittagong, Bangladesh, 4203',
+        days: 'Saturday, Monday, Wednesday, Thursday',
+        time: '3:00 PM – 7:00 PM',
+        landmark: 'Chittagoing Pain Center',
+        phoneDisplay: '+880 1836-892489',
+        phoneLink: '+8801836892489',
+        directionLink: 'https://maps.app.goo.gl/WckqtrXSXxwtKySC8',
+        mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.8519722538385!2d91.82355447480536!3d22.359217540758205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd90001f4e8ad%3A0x25055b4eb47451ad!2sChittagong%20Neuro%20Rehab!5e0!3m2!1sen!2sbd!4v1777600682522!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
       },
       {
         id: '03',
